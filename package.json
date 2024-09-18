@@ -49,7 +49,7 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "statements": 71,
+        "statements": 100,
         "branches": 71,
         "functions": 77,
         "lines": 70
