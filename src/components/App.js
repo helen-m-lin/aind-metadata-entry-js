@@ -18,7 +18,7 @@ function App (props) {
         Renders dropdown menu with options
         Gives user the option to autofill the form with previously input data
      */
-  const { appVersion } = props
+  const { appVersion } = props;
   const appVersionMsg = appVersion ? `App version ${appVersion}` : null
   const [data, setData] = useState(null)
   const [schema, setSchema] = useState(null)

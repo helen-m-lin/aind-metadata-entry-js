@@ -4,4 +4,4 @@ const Config = {
   AIND_DATA_SCHEMA_READTHEDOCS_URL: 'https://aind-data-schema.readthedocs.io/en/latest/'
 };
 
-export default Config
+export default Config;
