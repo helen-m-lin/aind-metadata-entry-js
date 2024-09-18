@@ -16,7 +16,7 @@ jobs:
         node-version: "16.x"
     - name: Install dependencies
       run: | 
-        npm install
+        npm ci
     - name: Run linter checks
       run: npm run lint
     - name: Run tests and coverage
