@@ -36,7 +36,7 @@ describe('App component', () => {
   it('renders Toolbar and RenderForm child components on default', () => {
     render(<App appVersion={TEST_APP_VERSION} />)
     expect(Toolbar).toHaveBeenCalled()
-    expect(RenderForm).not.toHaveBeenCalled()
+    expect(RenderForm).toHaveBeenCalled()
   })
 
   it('catches and displays error when unable to render form', () => {
