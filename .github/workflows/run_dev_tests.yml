@@ -21,11 +21,23 @@ jobs:
       run: |
         npm install
         if [[ `git status --porcelain` ]]; then
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add package-lock.json
-          git commit -m 'Update package-lock.json'
-          git push origin HEAD:${GITHUB_HEAD_REF}
+          echo "Changes detected in the working directory"
+          git status
+          if [[ "${GITHUB_HEAD_REF}" == "dev" || "${GITHUB_HEAD_REF}" == "main" ]]; then
+            echo "Error: Cannot auto-commit to ${GITHUB_HEAD_REF}. Please review and commit the changes."
+            git diff
+            exit 1
+          else
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add package-lock.json
+            echo "Staged changes:"
+            git status
+            echo "Committing changes to package-lock.json"
+            git commit -m 'Update package-lock.json'
+            echo "Pushing changes to ${GITHUB_HEAD_REF}"
+            git push origin HEAD:${GITHUB_HEAD_REF}
+          fi
         else
           echo "No changes in package-lock.json"
         fi
