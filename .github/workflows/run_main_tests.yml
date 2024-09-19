@@ -32,6 +32,7 @@ jobs:
             git add package-lock.json
             git commit -m 'Update package-lock.json'
             git push origin HEAD:${GITHUB_HEAD_REF}
+          fi
         else
           echo "No changes in package-lock.json"
         fi
