@@ -21,11 +21,16 @@ jobs:
       run: |
         npm install
         if [[ `git status --porcelain` ]]; then
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add package-lock.json
-          git commit -m 'Update package-lock.json'
-          git push origin HEAD:${GITHUB_HEAD_REF}
+          if [[ "${GITHUB_HEAD_REF}" == "dev" || "${GITHUB_HEAD_REF}" == "main" ]]; then
+            echo "Error: package-lock.json is outdated but cannot auto-commit to ${GITHUB_HEAD_REF}. Please review and commit the changes."
+            git diff
+            exit 1
+          else:
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add package-lock.json
+            git commit -m 'Update package-lock.json'
+            git push origin HEAD:${GITHUB_HEAD_REF}
         else
           echo "No changes in package-lock.json"
         fi
