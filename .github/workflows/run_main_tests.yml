@@ -18,13 +18,24 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: "16.x"
-    - name: Check package-lock
+    - name: Update package-lock
       run: |
         npm install
         if [[ `git status --porcelain` ]]; then
-          echo "Error: package-lock.json has changed. Please review and commit the changes."
-          git diff
-          exit 1
+          echo "Changes detected in the working directory"
+          if [[ "${GITHUB_HEAD_REF}" == "dev" || "${GITHUB_HEAD_REF}" == "main" ]]; then
+            echo "Error: package-lock.json is outdated but cannot auto-commit to ${GITHUB_HEAD_REF}. Please review and commit the changes."
+            git diff
+            exit 1
+          else
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add package-lock.json
+            echo "Committing changes to package-lock.json"
+            git commit -m 'Update package-lock.json'
+            echo "Pushing changes to ${GITHUB_HEAD_REF}"
+            git push origin HEAD:${GITHUB_HEAD_REF}
+          fi
         else
           echo "No changes in package-lock.json"
         fi
